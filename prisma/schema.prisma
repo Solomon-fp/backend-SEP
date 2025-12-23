@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id     Int     @id @default(autoincrement())
+  name   String?
+  email  String? @unique
+  role   String?
+  cnic   String?
+  phone  String?
+  avatar String?
+}
+
+
+// Enum for tax_status
+enum TaxStatus {
+  DRAFT
+  SUBMITTED
+  IN_REVIEW
+  APPROVED
+  REJECTED
+}
+
+model TaxReturn {
+  id            Int        @id @default(autoincrement())
+  clientId      String?
+  clientName    String?
+  taxYear       String?
+  status        TaxStatus?
+  submittedDate String?
+  totalIncome   Decimal?
+  totalTax      Decimal?
+  documents     Decimal?
+  lastUpdated   String?
+}
+
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum ReturnStatus {
+  PENDING
+  FILED
+  APPROVED
+  REJECTED
+}
+
+// Enum for notification_type
+enum notificationType {
+  INFO
+  WARNING
+  ERROR
+  SUCCESS
+}
+
+// Model for notifications table
+model notifications {
+  id        Int               @id @default(autoincrement())
+  title     String?
+  message   String?
+  type      notificationType?
+  read      Boolean           @default(false)
+  createdAt String
+}
+
+// Enum for bill_status
+enum billstatus {
+  PENDING
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+model bills {
+  id          String      @id @default(uuid()) @db.Uuid
+  clientId    String?
+  description String?
+  amount      Decimal?
+  dueDate     String?
+  status      billstatus?
+  items       Json?
+}
+
+
+// Enum for info_status
+enum InfoStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+model InfoRequest {
+  id         Int        @id @default(autoincrement())
+  clientId   String?
+  clientName String?
+  returnId   String?    @db.Uuid
+  subject    String?
+  status     InfoStatus?
+  createdAt  String?
+  messages   Json?
+}
