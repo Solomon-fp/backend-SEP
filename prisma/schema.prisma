@@ -18,9 +18,11 @@ model User {
   name   String?
   email  String? @unique
   role   String?
+  password String?
   cnic   String?
   phone  String?
-  avatar String?
+  cnicfront Bytes
+  cnicback Bytes
 }
 
 
@@ -42,7 +44,7 @@ model TaxReturn {
   submittedDate String?
   totalIncome   Decimal?
   totalTax      Decimal?
-  documents     Decimal?
+  documents     Bytes?
   lastUpdated   String?
 }
 
@@ -105,10 +107,10 @@ enum InfoStatus {
 }
 
 model InfoRequest {
-  id         Int        @id @default(autoincrement())
+  id         Int     @id @default(autoincrement())
   clientId   String?
   clientName String?
-  returnId   String?    @db.Uuid
+  returnId   String? // remove @db.Uuid
   subject    String?
   status     InfoStatus?
   createdAt  String?
