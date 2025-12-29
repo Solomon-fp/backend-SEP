@@ -95,6 +95,7 @@ model bills {
   dueDate     String?
   status      billstatus?
   items       Json?
+  generatedBy String?
 }
 
 

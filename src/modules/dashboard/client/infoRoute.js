@@ -1,5 +1,6 @@
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
+import { createNotification } from "../../notifications/notificationRoute.js";
 
 const routerInfo = express.Router();
 const prisma = new PrismaClient();
@@ -62,6 +63,12 @@ routerInfo.post('/', async (req, res) => {
           },
         ],
       },
+    });
+
+    await createNotification({
+      title: "Information Requested",
+      message: "Information has been Requested.",
+      type: "SUCCESS",
     });
 
     res.status(201).json(request);
@@ -131,11 +138,18 @@ routerInfo.post('/:id/resolve', async (req, res) => {
       data: { status: 'RESOLVED' },
     });
 
+    await createNotification({
+      title: "Information Recieved",
+      message: "Requested Information has been revieved.",
+      type: "SUCCESS",
+    });
+
     res.json(updated);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Failed to resolve request' });
   }
 });
+
 
 export default routerInfo;

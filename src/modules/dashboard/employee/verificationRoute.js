@@ -1,5 +1,6 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import { createNotification } from "../../notifications/notificationRoute.js";
 
 const verificationRouter = express();
 const prisma = new PrismaClient();
@@ -77,6 +78,12 @@ verificationRouter.put("/:id/verify", async (req, res) => {
         status: status.toUpperCase(),
         lastUpdated: new Date().toLocaleDateString(),
       },
+    });
+
+    await createNotification({
+      title: "Return Verified",
+      message: `Your tax return has been ${status.toLowerCase()}.`,
+      type: status === "APPROVED" ? "SUCCESS" : "WARNING",
     });
 
     res.json(updated);
