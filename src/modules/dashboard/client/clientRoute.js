@@ -31,6 +31,23 @@ clientRouter.get("/", async (req, res) => {
   }
 });
 
+// GET /api/client/dashboard/returns?clientId=
+clientRouter.get('/dashboard/returns', async (req, res) => {
+  const { clientId } = req.query;
+
+  if (!clientId) {
+    return res.status(400).json({ message: 'clientId required' });
+  }
+
+  const returns = await prisma.taxReturn.findMany({
+    where: { clientId: String(clientId) },
+    orderBy: { id: 'desc' },
+  });
+
+  res.json(returns);
+});
+
+
 clientRouter.get("/returns", async (req, res) => {
    const data = await prisma.taxReturn.findMany({
     where: {
