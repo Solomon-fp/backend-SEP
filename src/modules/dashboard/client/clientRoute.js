@@ -48,16 +48,18 @@ clientRouter.post("/returns",
      upload.single("documents"),
     async (req, res) => {
     const {
-        clientId, clientName, taxYear, status, submittedDate, totalIncome, totalTax, lastUpdated
+        clientId, clientName, taxYear, status,fbrStatus, submittedDate, totalIncome, totalTax, lastUpdated
     } = req.body;
     try {
         
          const documentsBuffer = req.file ? req.file.buffer : null;
+
+         console.log(clientId, fbrStatus)
         
     
         const data = await prisma.taxReturn.create ({
             data: {
-              clientId, clientName, taxYear, status, submittedDate, totalIncome, totalTax, documents: documentsBuffer, lastUpdated
+              clientId, clientName, taxYear, status, submittedDate, totalIncome, totalTax,fbrStatus: fbrStatus,  documents: documentsBuffer, lastUpdated
             },
         })
 
@@ -68,8 +70,10 @@ clientRouter.post("/returns",
     });
 
         res.json({data: data,success:true});
+        console.log("here")
     } catch (error) {
         res.json({data: [], success:false})
+        console.log("there")
     }
 
 })

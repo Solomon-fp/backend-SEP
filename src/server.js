@@ -12,7 +12,9 @@ import clientDashboardRouter from "./modules/dashboard/client/clientDashboardRou
 import generateBillingRouter from "./modules/dashboard/employee/generateBillingRoute.js";
 import reviewRouter from "./modules/dashboard/fbr/fbrReview.js";
 import notificationRouter from "./modules/notifications/notificationRoute.js";
-import finalApprovalRouter from "./modules/returns/finalApprovalRoute.js";
+import fbrDashboardRouter from "./modules/dashboard/fbr/fbrDashboardRoute.js";
+import clientTrackingRouter from "./modules/dashboard/client/clientTrackingRouter.js";
+import fbrDecisionRouter from "./modules/dashboard/fbr/fbrDecisionRouter.js";
 
 dotenv.config();
 
@@ -29,11 +31,13 @@ app.use("/api/billing", billRouter);
 app.use("/api/client", clientRouter);
 app.use("/api/verify", verificationRouter);
 app.use("/api/calculation", caculationRouter);
+app.use("/api/tracking", clientTrackingRouter);
 app.use("/api/employee/billing", generateBillingRouter);
 app.use("/api/dashboard", employeeDashboardRouter);
-app.use("/api/fbr", reviewRouter);
+app.use("/api/fbr/review", reviewRouter);
 app.use('/api/notifications', notificationRouter);
-app.use('/api/final-approval', finalApprovalRouter);
+app.use("/api/fbr/dashboard", fbrDashboardRouter);
+app.use("/api/fbr/decision", fbrDecisionRouter);
 
 app.get("/", (req, res) => {
   res.send(`🚀 Backend running on port ${PORT}`);

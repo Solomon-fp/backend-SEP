@@ -20,6 +20,7 @@ clientDashboardRouter.get("/returns", async (req, res) => {
         clientName: true,
         taxYear: true,
         status: true,
+        fbrStatus: true,
         totalIncome: true,
         totalTax: true,
         submittedDate: true,

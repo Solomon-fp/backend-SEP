@@ -41,13 +41,22 @@ model TaxReturn {
   clientName    String?
   taxYear       String?
   status        TaxStatus?
+  fbrStatus     FBRStatusFinal?
   submittedDate String?
   totalIncome   Decimal?
   totalTax      Decimal?
   documents     Bytes?
   lastUpdated   String?
+
 }
 
+enum FBRStatusFinal {
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  OBJECTION
+}
 
 enum Role {
   ADMIN
